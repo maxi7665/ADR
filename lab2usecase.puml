@@ -1,0 +1,39 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Пользователь (Дизайнер)" as User
+
+rectangle "ПО для создания шаблонов UI (n <= 100)" {
+  
+  package "1. Управление проектом" {
+    (Создать новый шаблон) as UC1
+    (Удалить шаблон) as UC2
+    (Дублировать шаблон) as UC3
+    (Сохранить проект) as UC4
+  }
+  
+  package "2. Редактирование" {
+    (Добавить элемент на холст) as UC5
+    (Изменить свойства элемента) as UC6
+    (Предпросмотр интерфейса) as UC7
+  }
+  
+  package "3. Контроль ограничений" {
+    (Проверка лимита шаблонов) as UC8
+    (Вывод ошибки при n > 100) as UC9
+  }
+
+  User --> UC1
+  User --> UC2
+  User --> UC3
+  User --> UC4
+  User --> UC5
+  User --> UC6
+  User --> UC7
+
+  UC1 ..> UC8 : <<include>>
+  UC3 ..> UC8 : <<include>>
+  UC8 <. UC9 : <<extend>> (если n=100)
+}
+@enduml

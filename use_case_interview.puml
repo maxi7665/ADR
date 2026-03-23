@@ -1,0 +1,49 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Пользователь" as User
+
+rectangle "ПО для расчета чисел Фибоначчи (n >= 150)" {
+    
+    package "1. Работа с результатом" {
+        usecase "Вычислить число Фибоначчи" as UC_Calc
+        usecase "Копировать в буфер обмена" as UC_Copy
+        usecase "Экспортировать в файл (.txt, .pdf)" as UC_Export
+        usecase "Поиск последовательности цифр" as UC_Search
+        usecase "Форматирование (разбиение на разряды)" as UC_Format
+    }
+
+    package "2. Математический анализ" {
+        usecase "Просмотр статистики (кол-во знаков)" as UC_Stats
+        usecase "Анализ близости к Золотому сечению" as UC_Phi
+        usecase "Проверка математических свойств" as UC_Prop
+    }
+
+    package "3. История и сравнение" {
+        usecase "Просмотр истории запросов" as UC_History
+        usecase "Сравнение двух чисел (разность/сумма)" as UC_Compare
+        usecase "Добавление числа в закладки" as UC_Bookmark
+    }
+
+    ' Взаимосвязи
+    User --> UC_Calc
+    User --> UC_Copy
+    User --> UC_Export
+    User --> UC_Search
+    User --> UC_Format
+    
+    User --> UC_Stats
+    User --> UC_Phi
+    User --> UC_Prop
+    
+    User --> UC_History
+    User --> UC_Compare
+    User --> UC_Bookmark
+
+    ' Зависимости (опционально)
+    'UC_Stats ..> UC_Calc : <<include>>
+    'UC_Phi ..> UC_Calc : <<include>>
+    'UC_Format ..> UC_Calc : <<extend>>
+}
+@enduml

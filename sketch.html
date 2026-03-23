@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fibonacci Ultra Calc</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .mono { font-family: 'JetBrains Mono', monospace; word-break: break-all; }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+
+    <div class="max-w-2xl mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden border border-slate-200">
+        <!-- Header -->
+        <div class="bg-slate-900 p-6 text-white">
+            <h1 class="text-2xl font-800 tracking-tight">FIBONACCI <span class="text-blue-400">STUDIO</span></h1>
+            <p class="text-slate-400 text-sm">Высокоточный расчет для n ≥ 150</p>
+        </div>
+
+        <div class="p-8">
+            <!-- Input Area -->
+            <div class="flex gap-4 mb-8">
+                <div class="flex-1">
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Порядковый номер (n)</label>
+                    <input type="number" id="inputN" value="150" min="0" 
+                           class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:outline-none text-lg font-semibold transition-all">
+                </div>
+                <button onclick="calculate()" class="mt-6 px-8 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-200 active:scale-95">
+                    РАСЧЕТ
+                </button>
+            </div>
+
+            <!-- Result Area -->
+            <div class="mb-6">
+                <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Результат</label>
+                <div id="resultWrapper" class="relative group">
+                    <div id="result" class="mono p-6 bg-slate-50 border-2 border-slate-100 rounded-2xl text-slate-800 text-lg min-h-[100px] max-h-[300px] overflow-y-auto">
+                        Введите число и нажмите расчет...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-3 mb-8">
+                <button onclick="copyText()" class="text-xs font-bold px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg transition-colors">КОПИРОВАТЬ</button>
+                <button onclick="exportToTxt()" class="text-xs font-bold px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg transition-colors">ЭКСПОРТ .TXT</button>
+            </div>
+
+            <!-- Analytics Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-4 bg-blue-50 rounded-2xl border border-blue-100">
+                    <h3 class="text-blue-800 text-xs font-800 uppercase mb-2">Анализ числа</h3>
+                    <p id="statLength" class="text-blue-900 text-sm">Цифр: —</p>
+                    <p id="statEven" class="text-blue-900 text-sm">Тип: —</p>
+                </div>
+                <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
+                    <h3 class="text-emerald-800 text-xs font-800 uppercase mb-2">Золотое сечение</h3>
+                    <p id="statPhi" class="text-emerald-900 text-sm font-medium italic">φ ≈ 1.618...</p>
+                    <p class="text-emerald-700 text-[10px]">Близость к идеалу: 99.9%+</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-slate-50 px-8 py-4 border-t border-slate-100 text-[10px] text-slate-400 flex justify-between">
+            <span>ALGORITHM: ITERATIVE BIGINT</span>
+            <span id="timer">TIME: 0ms</span>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const n = parseInt(document.getElementById('inputN').value);
+            if (isNaN(n) || n < 0) return alert("Введите корректное число");
+
+            const start = performance.now();
+            
+            let a = BigInt(0);
+            let b = BigInt(1);
+            
+            for (let i = 0; i < n; i++) {
+                let temp = a + b;
+                a = b;
+                b = temp;
+            }
+
+            const end = performance.now();
+            const resultStr = a.toString();
+
+            // Вывод результата
+            document.getElementById('result').innerText = resultStr;
+            
+            // Обновление статистики
+            document.getElementById('statLength').innerText = `Цифр: ${resultStr.length}`;
+            document.getElementById('statEven').innerText = `Тип: ${a % 2n === 0n ? 'Четное' : 'Нечетное'}`;
+            document.getElementById('timer').innerText = `TIME: ${(end - start).toFixed(4)}ms`;
+        }
+
+        function copyText() {
+            const text = document.getElementById('result').innerText;
+            navigator.clipboard.writeText(text).then(() => alert("Скопировано!"));
+        }
+
+        function exportToTxt() {
+            const text = document.getElementById('result').innerText;
+            const n = document.getElementById('inputN').value;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const anchor = document.createElement('a');
+            anchor.download = `fibonacci_${n}.txt`;
+            anchor.href = (window.webkitURL || window.URL).createObjectURL(blob);
+            anchor.click();
+        }
+    </script>
+</body>
+</html>

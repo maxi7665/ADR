@@ -1,0 +1,40 @@
+@startuml
+!theme plain
+title DFD 
+'Уровня 1: Система вычисления чисел Фибоначчи
+
+skinparam actorStyle stickman
+skinparam databaseBackgroundColor #FFE4B5
+skinparam usecaseBackgroundColor #E1F5FE
+
+' Внешние сущности
+actor "Пользователь" as User
+'entity "Внешний API/Логгер" as Logger
+
+'package "Ядро вычислений" {
+    usecase (1\nПроверка\nввода) as P1
+    usecase (2\nРасчет результата) as P2
+    usecase (3\nФормирование\nответа) as P3
+'}
+
+' Хранилище для оптимизации (Мемоизация)
+database "История вычислений" as Cache
+
+' Потоки данных
+User --> P1 : Значение n
+P1 --> P2 : Индекс n
+P1 --> P3 : Сообщение об ошибке 
+
+P2 <--> Cache : Проверка/Запись\nранее вычисленных значений
+P2 --> P3 : Число Фибоначчи 
+
+P3 --> User : Результат вычислений
+'P3 --> Logger : Данные о запросе\nи времени расчета
+
+'note bottom of P2
+'  Здесь может использоваться
+'  **Связь с Золотым сечением**
+'  (Формула Бине)
+'end note
+
+@enduml

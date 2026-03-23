@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <style>
+        body { font-family: sans-serif; display: flex; height: 100vh; margin: 0; background: #f0f2f5; }
+        .toolbar { width: 200px; background: #fff; border-right: 1px solid #ccc; padding: 15px; }
+        .canvas { flex-grow: 1; display: flex; align-items: center; justify-content: center; position: relative; }
+        .canvas-area { width: 80%; height: 80%; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 1px dashed #999; }
+        .sidebar { width: 250px; background: #fff; border-left: 1px solid #ccc; padding: 15px; }
+        .btn { display: block; width: 100%; padding: 10px; margin-bottom: 10px; background: #007bff; color: white; border: none; cursor: pointer; text-align: center; }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
+        .counter { font-weight: bold; color: #d9534f; margin-bottom: 20px; }
+        .template-list { list-style: none; padding: 0; }
+        .template-item { padding: 8px; border-bottom: 1px solid #eee; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="toolbar">
+        <h3>Инструменты</h3>
+        <div class="btn">Кнопка</div>
+        <div class="btn">Поле ввода</div>
+        <div class="btn">Контейнер</div>
+    </div>
+    <div class="canvas">
+        <div class="canvas-area"></div>
+    </div>
+    <div class="sidebar">
+        <div class="counter">Шаблонов: 42 / 100</div>
+        <button class="btn">Создать новый шаблон</button>
+        <button class="btn" style="background: #28a745;">Сохранить проект</button>
+        <hr>
+        <h4>Список шаблонов</h4>
+        <ul class="template-list">
+            <li class="template-item">Main_Screen_v1</li>
+            <li class="template-item">Login_Form_Final</li>
+            <li class="template-item">Settings_Modal</li>
+        </ul>
+    </div>
+</body>
+</html>
