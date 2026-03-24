@@ -1,0 +1,36 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Segoe UI"
+allow_mixing
+
+' Внешние сущности
+actor "Пользователь" as Dev
+database "Файлы проекта" as FS
+entity "Языковая модель" as API
+
+' Процессы (Окружности)
+usecase "1. Собрать контекст (код)" as P1
+usecase "2. Сформировать полный запрос" as P2
+usecase "3. Передать данные в БЯМ и получить ответ" as P3
+usecase "4. Применить правки\nв редакторе" as P4
+
+' Хранилища
+database "История чата" as DB
+
+' Потоки (Вертикально сверху вниз)
+Dev --> P1 : Запрос пользователя
+FS --> P1 : Текст файлов
+
+P1 --> P2 : Сырой код
+DB --> P2 : Контекст диалога
+
+P2 --> P3 : Финальный запрос
+P3 -> API : Запрос
+API -> P3 : Ответ
+
+P3 --> DB : Сохранение ответа
+P3 --> P4 : Сгенерированный код,\nдействия
+P4 --> Dev : Результат в IDE
+
+@enduml

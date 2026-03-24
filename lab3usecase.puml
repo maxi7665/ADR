@@ -1,0 +1,25 @@
+@startuml
+skinparam actorStyle awesome
+left to right direction
+
+actor "Пользователь" as dev
+
+rectangle "ИИ-агент" {
+    usecase "Генерация кода по промпту" as UC1
+    usecase "Рефакторинг выделенного фрагмента" as UC2
+    usecase "Объяснение работы кода" as UC3
+    usecase "Автоматическая индексация проекта" as UC4
+    usecase "Генерация Unit-тестов" as UC5
+    usecase "Настройка параметров модели" as UC6
+}
+
+dev --> UC1
+dev --> UC2
+dev --> UC3
+dev --> UC5
+dev --> UC6
+
+UC1 ..> UC4 : <<include>>
+UC2 ..> UC4 : <<include>>
+
+@endum
